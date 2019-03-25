@@ -15,8 +15,6 @@ const Currency = (props) => {
   const Buy = b.toFixed(4)
   const Sell = s.toFixed(4)
   const initVal = props.balances[`${quote[0]}`]
-  
-  console.log(props.balances, 'in currency', initVal, 'initVal');
 
   return (
     <Row className='bold'>

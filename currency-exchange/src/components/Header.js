@@ -1,6 +1,6 @@
 import React from 'react';
 import {Navbar, NavItem, Icon } from 'react-materialize';
-// import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const Header = () => {
 
@@ -9,14 +9,14 @@ const Header = () => {
   return (
     <Navbar className='blue accent-4'  brand={ companyLogo } right>
       <NavItem>
-        <div style={{color: 'white'}}>
+        <Link to={`/`} style={{color: 'white'}}>
             Home
-        </div>
+        </Link>
       </NavItem>
       <NavItem>
-        <div style={{color: 'white'}}>
+        <Link to={`/admin`} style={{color: 'white'}}>
           Admin 
-        </div>
+        </Link>
       </NavItem>
       <NavItem>
         <Icon large className='white-text'>attach_money</Icon>
