@@ -1,5 +1,5 @@
 
-import { FETCH_QUOTES, SET_VALUE } from '../actions/types';
+import { FETCH_QUOTES, SET_VALUE, MAKE_ORDER } from '../actions/types';
 
 const INITIAL_STATE = { 
 
@@ -32,17 +32,17 @@ const INITIAL_STATE = {
   ],
 
   balances: {
-      USD: 1500,
-      USDARS: 41024.999, //Agentinian Peso
-      USDAUD: 1407.35, //Australian Dollar
-      USDBRL: 3792.9, //Brazilian Real
-      USDCAD: 1336.45, //Canadian Dollar
-      USDCNY: 6704.049, //Chinese Yuan
-      USDEUR: 879.015, //Euro
-      USDGBP: 761.15, //British Sterling Pound
-      USDJPY: 110778.968, //Japanese Yen
-      USDKES: 100.810476, //Kenyan Shilling
-      USDMXN: 18857.601, //Mexican Peso
+      USD: 1500,  //USD Reserve
+      USDARS: 41000, //Agentinian Peso
+      USDAUD: 1400, //Australian Dollar
+      USDBRL: 4000, //Brazilian Real
+      USDCAD: 1500, //Canadian Dollar
+      USDCNY: 6700, //Chinese Yuan
+      USDEUR: 1000, //Euro
+      USDGBP: 900, //British Sterling Pound
+      USDJPY: 110000, //Japanese Yen
+      USDKES: 100, //Kenyan Shilling
+      USDMXN: 20000, //Mexican Peso
   }
 
 }
@@ -53,6 +53,8 @@ export default (state = INITIAL_STATE, action) => {
       return { ...state, quotes: action.payload }
     case SET_VALUE:
     return { ...state, orderProcess: action.payload }
+    case MAKE_ORDER:
+      return { ...state, balances: action.payload }
     default:
       return state;
   } 

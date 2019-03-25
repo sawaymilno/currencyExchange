@@ -13,15 +13,14 @@ class CurrencyList extends Component {
   //   const dataArr = Object.entries(data.quotes)
   //   this.props.fetchQuotes(dataArr)
   // }
+  
   renderClock = (time) => (time < 10) ?`0${time}` :`${time}`
     
-  
-
   render() {
     const today = new Date();
     const date = `${today.getFullYear()}/${today.getMonth()+1}/${today.getDate()} ${this.renderClock(today.getHours())}:${this.renderClock(today.getMinutes())}:${this.renderClock(today.getSeconds())}`
-
-    let prompt = `Exchange rates shown as per ${date}. You have $${this.props.balances.USD} USD left.`
+    const prompt = `Exchange rates shown as per ${date}. You have $${this.props.balances.USD.toFixed(2)} USD left.`
+    
     return (
       <>
       <Row className='center'>
@@ -36,7 +35,7 @@ class CurrencyList extends Component {
           <Col s={4}>Amount Available</Col>
         </Row>
         {this.props.quotes.map((quote, i) => {
-          return (<Currency quote={quote} key={i}/>)
+          return (<Currency balances={this.props.balances} quote={quote} key={i}/>)
         })}
       </div>
     </Card>
