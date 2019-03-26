@@ -8,19 +8,17 @@ import Currency from './Currency'
 
 class CurrencyList extends Component {
 
-  // componentDidMount = async () =>  {
-  //   const { data } = await quotes.get()
-  //   const dataArr = Object.entries(data.quotes)
-  //   this.props.fetchQuotes(dataArr)
-  // }
-  
+  componentDidMount = async () =>  {
+    const { data } = await quotes.get()
+    const dataArr = Object.entries(data.quotes)
+    this.props.fetchQuotes(dataArr)
+  }
   renderClock = (time) => (time < 10) ?`0${time}` :`${time}`
     
   render() {
     const today = new Date();
     const date = `${today.getFullYear()}/${today.getMonth()+1}/${today.getDate()} ${this.renderClock(today.getHours())}:${this.renderClock(today.getMinutes())}:${this.renderClock(today.getSeconds())}`
     const prompt = `Exchange rates shown as per ${date}. You have $${this.props.balances.USD.toFixed(2)} USD left.`
-    
     return (
       <>
       <Row className='center'>

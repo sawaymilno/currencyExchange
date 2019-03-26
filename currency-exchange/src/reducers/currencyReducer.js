@@ -1,5 +1,13 @@
-
-import { FETCH_QUOTES, SET_VALUE, MAKE_ORDER } from '../actions/types';
+import { 
+  FETCH_QUOTES, 
+  SET_VALUE, 
+  MAKE_ORDER, 
+  EDIT_COMMISSION, 
+  EDIT_SURCHARGE, 
+  EDIT_INTERVAL,
+  EDIT_MINCOM,
+  EDIT_MARGIN
+ } from '../actions/types'
 
 const INITIAL_STATE = { 
 
@@ -11,11 +19,11 @@ const INITIAL_STATE = {
   },
 
   settings: {
-    refresh: 10,
     commission: .02,
     surcharge: 1.00,
     minCommission: 2.00,
-    buySellMargin: .02
+    buySellMargin: .02,
+    quoteUpdateInterval: 5
   },
 
   quotes: [
@@ -55,6 +63,16 @@ export default (state = INITIAL_STATE, action) => {
     return { ...state, orderProcess: action.payload }
     case MAKE_ORDER:
       return { ...state, balances: action.payload }
+    case EDIT_COMMISSION:
+      return { ...state, settings: {...state.settings, commission: action.payload}}
+    case EDIT_SURCHARGE:
+      return { ...state, settings: {...state.settings, surcharge: action.payload}}
+    case EDIT_INTERVAL:
+      return { ...state, settings: {...state.settings, quoteUpdateInterval: action.payload}}
+    case EDIT_MINCOM:
+      return { ...state, settings: {...state.settings, minCommission: action.payload}}
+    case EDIT_MARGIN:
+      return { ...state, settings: {...state.settings, buySellMargin: action.payload}}
     default:
       return state;
   } 

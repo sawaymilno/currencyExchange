@@ -1,99 +1,124 @@
 import React, { Component } from "react";
-import { Col, Row, Input, Icon } from 'react-materialize'
+import { Col, Row, Input, Button } from 'react-materialize'
 import { connect } from 'react-redux';
-
-
 import * as actions from '../actions';
 
 class Admin extends Component {
 
+  onCommissionChange = (e) => this.props.editCommission((e.target.value/100));
+  onSurchargeChange = (e) => this.props.editSurcharge(parseInt(e.target.value));
+  onIntervalChange = (e) => this.props.editInterval(parseInt(e.target.value));
+  onMinComChange = (e) => this.props.editMinCom(parseInt(e.target.value));
+  onMarginChange = (e) => this.props.editMargin((e.target.value/100));
+  
+  
 
   render() {
+
+    const commissionValue = (this.props.commission * 100).toFixed(2)
+    const surchargeValue = this.props.surcharge.toFixed(2)
+    const quoteUpdateValue = this.props.quoteUpdateInterval
+    const minCommissionValue = this.props.minCommission.toFixed(2)
+    const rateMarginValue = (this.props.buySellMargin * 100).toFixed(2)
+    // console.log(this.props);
     return (
       <>
-      <form>
-        <Row>
-          
-        </Row>
-          <br></br>
-          <Row s={12} className='center'>
-          <Col s={1}></Col>
+        <br></br>
+        <Row s={12} className='center'>
+          <Col s={2}></Col>
             <Col s={3}> 
+
               <Input 
                 s={10} 
+                label='Commission %' 
                 type='number'
-                id='Commission'
-                name='Commission'
-                min='10'
+                min='0'
                 max='100'
                 className='center' 
                 autoComplete='off' 
-                label='Commission' 
-                placeholder='enter amount'
-                // value={valueNum.toString()}
-                onChange={this.onTextChange} 
+                value={`${commissionValue}`}
+                onChange={this.onCommissionChange} 
                 validate>
               </Input>
+
             </Col>
             <Col s={3}></Col>
             <Col s={3}> 
+
               <Input 
                 s={10} 
+                label='Surcharge $' 
                 type='number'
-                id='Surcharge'
-                name='Surcharge'
-                min='10'
-                max='100'
+                min='0'
+                max='1000'
                 className='center' 
-                autoComplete='off' 
-                label='Surcharge' 
-                placeholder='enter amount'
-                // value={valueNum.toString()}
-                onChange={this.onTextChange} 
+                value={`${surchargeValue}`}
+                onChange={this.onSurchargeChange} 
                 validate>
               </Input>
+
             </Col>
           </Row>
 
+          <Row className='center'>
+          <Col s={5}></Col>
+
+            <Input 
+              s={2} 
+              label='Quote Update Interval (minutes)' 
+              type='number'
+              min='0'
+              max='20'
+              className='center' 
+              value={`${quoteUpdateValue}`}
+              onChange={this.onIntervalChange} 
+              validate>
+            </Input>
+
+          </Row>
+
           <Row s={12} className='center'>
-          <Col s={1}></Col>
+          <Col s={2}></Col>
             <Col s={3}> 
+
               <Input 
                 s={10} 
+                label='Minimal Commission $' 
                 type='number'
-                id='Minimal Commission'
-                name='Minimal Commission'
-                min='10'
-                max='100'
+                min='0'
+                max='1000'
                 className='center' 
                 autoComplete='off' 
-                label='Minimal Commission' 
-                placeholder='enter amount'
-                // value={valueNum.toString()}
-                onChange={this.onTextChange} 
+                value={`${minCommissionValue}`}
+                onChange={this.onMinComChange} 
                 validate>
               </Input>
+
             </Col>
             <Col s={3}></Col>
             <Col s={3}> 
+
               <Input 
                 s={10} 
+                label='Buy/Sell Rate Margin %' 
                 type='number'
-                id='Buy/Sell Rate Margin'
-                name='Buy/Sell Rate Margin'
-                min='10'
+                min='0'
                 max='100'
                 className='center' 
                 autoComplete='off' 
-                label='Buy/Sell Rate Margin' 
-                placeholder='enter amount'
-                // value={valueNum.toString()}
-                onChange={this.onTextChange} 
+                value={`${rateMarginValue}`}
+                onChange={this.onMarginChange} 
                 validate>
               </Input>
+
             </Col>
-          </Row>
-        </form>
+
+        </Row>
+        <Col className='center'>
+          <Button style={{backgroundColor: 'blue'}} onClick={() => this.props.history.push('/')}>
+            Update 
+          </Button>
+        </Col>
       </>
     )
   }

@@ -26,11 +26,11 @@ class CurrencyModal extends Component {
   }
   
   onOrderClick = () => {
-    const orderTrade = Object.keys(this.props.order)[0]
-    const orderCurrency = this.props.currency
-    const orderValue = this.props.orderProcess.orderValue
-    const orderTotal = this.props.orderProcess.orderTotal
-    let balances = Object.assign({},this.props.balances)
+    const submitOrderTrade = Object.keys(this.props.order)[0]
+    const SubmitOrderCurrency = this.props.currency
+    const submitOrderValue = this.props.orderProcess.orderValue
+    const submitOrderTotal = this.props.orderProcess.orderTotal
+    let submitBalances = Object.assign({},this.props.balances)
     
     const initVal = {
       orderValue: 0,
@@ -40,14 +40,14 @@ class CurrencyModal extends Component {
     }
     this.props.setValue(initVal)
 
-    if (orderTrade === 'Sell')  {
-      balances[`${orderCurrency}`] -= orderValue;
-      balances.USD += orderTotal
+    if (submitOrderTrade === 'Sell')  {
+      submitBalances[`${SubmitOrderCurrency}`] -= submitOrderValue;
+      submitBalances.USD += submitOrderTotal
     } else {
-      balances[`${orderCurrency}`] += orderValue;
-      balances.USD -= orderTotal
+      submitBalances[`${SubmitOrderCurrency}`] += submitOrderValue;
+      submitBalances.USD -= submitOrderTotal
     }
-    this.props.makeOrder(balances)
+    this.props.makeOrder(submitBalances)
   }
 
   onCancel = () => {
@@ -66,7 +66,7 @@ class CurrencyModal extends Component {
     const orderType = `${Object.keys(this.props.order)}`
     const currency = this.props.currency.slice(3)
     const rate = Object.values(this.props.order)
-    const valueNum = (this.props.orderProcess.orderValue === 0) ? '' : this.props.orderProcess.orderValue
+    const inputValue = (this.props.orderProcess.orderValue === 0) ? '' : this.props.orderProcess.orderValue
     const subTotal = this.props.orderProcess.orderSubtotal.toFixed(2)
     const commission = this.props.orderProcess.orderCommission.toFixed(2)
     const trade = (Object.keys(this.props.order)[0]) === 'Sell' ? 'Receive' : 'Deliver'
@@ -78,8 +78,8 @@ class CurrencyModal extends Component {
       trigger={<Col  s={2} className={`list-group-item`}>{rate}</Col>}
       actions={
         <>
-          <Button modal='close' onClick={this.onOrderClick}>{orderType}</Button>
-          <Button modal='close' onClick={this.onCancel}>cancel</Button>
+          <Button style={{backgroundColor: 'blue'}} modal='close' onClick={this.onOrderClick}>{orderType}</Button>
+          <Button style={{backgroundColor: 'blue'}} modal='close' onClick={this.onCancel}>cancel</Button>
         </>}
       >
         <form>
@@ -87,11 +87,11 @@ class CurrencyModal extends Component {
           <Row s={12} className='center'>
             <Input 
               s={6} 
+              label='Amount' 
               className='center' 
               autoComplete='off' 
-              label='Amount' 
               placeholder='enter amount'
-              value={valueNum.toString()}
+              value={`${inputValue}`}
               onChange={this.onTextChange} 
               validate>
               <Icon>account_balance</Icon>
