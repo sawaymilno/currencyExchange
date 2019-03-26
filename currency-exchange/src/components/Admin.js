@@ -20,7 +20,6 @@ class Admin extends Component {
     const quoteUpdateValue = this.props.quoteUpdateInterval
     const minCommissionValue = this.props.minCommission.toFixed(2)
     const rateMarginValue = (this.props.buySellMargin * 100).toFixed(2)
-    // console.log(this.props);
     return (
       <>
         <br></br>
@@ -45,7 +44,7 @@ class Admin extends Component {
             <Col s={3}></Col>
             <Col s={3}> 
 
-              {/* <Input 
+              <Input 
                 s={10} 
                 label='Surcharge $' 
                 type='number'
@@ -55,7 +54,7 @@ class Admin extends Component {
                 value={`${surchargeValue}`}
                 onChange={this.onSurchargeChange} 
                 validate>
-              </Input> */}
+              </Input>
 
             </Col>
           </Row>
@@ -63,7 +62,7 @@ class Admin extends Component {
           <Row className='center'>
           <Col s={5}></Col>
 
-            {/* <Input 
+            <Input 
               s={2} 
               label='Quote Update Interval (minutes)' 
               type='number'
@@ -73,7 +72,7 @@ class Admin extends Component {
               value={`${quoteUpdateValue}`}
               onChange={this.onIntervalChange} 
               validate>
-            </Input> */}
+            </Input>
 
           </Row>
 
@@ -81,7 +80,7 @@ class Admin extends Component {
           <Col s={2}></Col>
             <Col s={3}> 
 
-              {/* <Input 
+              <Input 
                 s={10} 
                 label='Minimal Commission $' 
                 type='number'
@@ -92,13 +91,13 @@ class Admin extends Component {
                 value={`${minCommissionValue}`}
                 onChange={this.onMinComChange} 
                 validate>
-              </Input> */}
+              </Input>
 
             </Col>
             <Col s={3}></Col>
             <Col s={3}> 
 
-              {/* <Input 
+              <Input 
                 s={10} 
                 label='Buy/Sell Rate Margin %' 
                 type='number'
@@ -109,7 +108,7 @@ class Admin extends Component {
                 value={`${rateMarginValue}`}
                 onChange={this.onMarginChange} 
                 validate>
-              </Input> */}
+              </Input>
 
             </Col>
 
