@@ -10,7 +10,6 @@ import {
  } from '../actions/types'
 
 const INITIAL_STATE = { 
-
   orderProcess: {
     orderValue: 0,
     orderSubtotal: 0,
@@ -23,7 +22,7 @@ const INITIAL_STATE = {
     surcharge: 1.00,
     minCommission: 2.00,
     buySellMargin: .02,
-    quoteUpdateInterval: 5
+    quoteUpdateInterval: 1
   },
 
   quotes: [
