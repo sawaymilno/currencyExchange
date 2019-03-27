@@ -6,7 +6,8 @@ import {
   EDIT_SURCHARGE, 
   EDIT_INTERVAL,
   EDIT_MINCOM,
-  EDIT_MARGIN
+  EDIT_MARGIN,
+  CALL_FAIL
  } from '../actions/types'
 
 const INITIAL_STATE = { 
@@ -63,7 +64,8 @@ const INITIAL_STATE = {
     USDJPY: 110000, //Japanese Yen
     USDKES: 100, //Kenyan Shilling
     USDMXN: 20000, //Mexican Peso
-  }
+  },
+  failMessage:''
 
 }
 
@@ -85,6 +87,8 @@ export default (state = INITIAL_STATE, action) => {
       return { ...state, settings: {...state.settings, minCommission: action.payload}}
     case EDIT_MARGIN:
       return { ...state, settings: {...state.settings, buySellMargin: action.payload}}
+    case CALL_FAIL:
+      return {...state, failMessage: 'API Call Failed. No Current Quotes.'}
     default:
       return state;
   } 

@@ -14,9 +14,15 @@ class CurrencyList extends Component {
 
   //initial loading of data from api
   componentDidMount = async () =>  {
-    const { data } = await quotes.get()
-    const dataArr = Object.entries(data.quotes)
-    this.props.fetchQuotes(dataArr)
+    try{
+      const { data } = await quotes.get()
+      const dataArr = Object.entries(data.quotes)
+      this.props.fetchQuotes(dataArr)
+    } catch(e) {
+      console.log(e);
+      this.apiCallFail()
+    }
+    
   }
 
   //refreshes date/time whenver api call is made
@@ -27,7 +33,7 @@ class CurrencyList extends Component {
       this.refreshDate()
     }
   }
-
+  apiCallFail = () => this.props.callFail()
   renderClock = (time) => (time < 10) ?`0${time}` :`${time}`
 
   refreshDate = () => {
@@ -47,6 +53,7 @@ class CurrencyList extends Component {
     return (
       <>
       <Row className='center'>
+      <div style={{color: 'red'}}>{this.props.failMessage}</div>
       <span>{datePrompt}</span><span style={{color}}>{moneyPrompt}</span>
         <div style={{color: 'red'}}>{warning}</div>
       </Row>

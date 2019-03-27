@@ -1,68 +1,14 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+When starting this project I set a goal to emulate the example video to perfection using react-materialize since I have used it in previous week-long projects. After a while, I realized (was reminded) that my passions do not lie in styling nor does my skill set and with that in mind I set out to complete the functionality requirements, a realm I enjoy. Additionally, I have found react-materialize documentation to be lacking and look forward to trying a different platform such as bootstrap.  
+One issue that I was unable to fix is a console warning referring to controlled and uncontrolled elements in the Admin.js file. After some research, I realized the issue has to do with react-materialize Inputs having default values (making the element uncontrolled) while I wired up the Input to receive its value from the store-state (making it a controlled element). Supposedly this was resolved in a newer version of react-materialize but when I tried to update, it broke my app and I decided that was far enough down the rabbit hole for a styling issue. Please know that I am aware of the warning and consciously decided to ignore it for the sake of the rest of the app.
+As far as I can see, I was able to meet all the requirements listed in the challenge details. I enjoyed the necessity for creativity in achieving many of these requirements and learned a good amount along the way. I built the app to allow growth by holding actions, APIs, components, and reducers in separate folders. I decided to do most styling inline. I often build styling objects at the bottom of each file and refer to them inline. I feel that this allows for simplicity in the number of file sizes while also allowing some clean and separate coding within the file.
+I also balanced the use of redux reducers along with the local component state. If some functionality could be self-contained, I used local state. This involved validations, initializing intervals of API calls, and the timing of the last API call.
+Additional points that I included:
+I clarified through UX/UI that this app is to be used by employees by adding an amount that the company will receive/deliver based on the transaction being a buy/sell. This is clearer than a simple “total”. 
+I added a minimum purchase of foreign currency that results in ACEO selling at least $1 to the customer. This feature could easily be added to the admin page for adjustability. I did not include it due to time constrictions as it was a last minute add/idea.
+I disabled the “order” button until all validations are met. This allows for balances to be accurate and within restrictions.
+I added a try/catch to the API call that delivers a message prompt on the home page if an update fails. This will allow for accurate and up-to-date rates.
+One additional business point would be to send some sort of notification to a “balance manager” when balances reach a low status. I also think that this breakpoint could be added into the admin page for adjustability.
 
-## Available Scripts
+Finally, I wanted to ensure that I completed this project in JavaScript first and then redo it in TypeScript using the given linter requirements. I plan to do that over the next week. If you will allow a resubmission with the TypeScript files that would be great. If not, I will benefit from the gained knowledge regardless.
 
-In the project directory, you can run:
-
-### `npm start`
-
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+Thank you for the opportunity and please reach out with questions.

@@ -7,7 +7,7 @@ const Header = () => {
   const companyLogo = <div className='col 12' style={{ marginLeft: 50, color: 'white'}}>A C E O</div>;
 
   return (
-    <Navbar className='blue accent-4'  brand={ companyLogo } href={() => ''} right>
+    <Navbar className='blue accent-4'  brand={ companyLogo } href={null} right>
       <NavItem onClick={() => history.push('/')}>
             Home
       </NavItem>

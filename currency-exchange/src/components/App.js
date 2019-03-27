@@ -11,14 +11,14 @@ import quotes from '../apis/currencyLayer'
 
 class App extends Component {
   //initializes get request to API based on a set interval that is adjustable via admin page.
-  state = { getQuotes: setInterval(() => this.loadData(), this.props.settings.quoteUpdateInterval * 60000)}
+  state = { getQuotes: setInterval(() => this.loadData(), this.props.settings.quoteUpdateInterval * 6000)}
 
   //when admin updates timing of refresh
   componentDidUpdate(prevProps) {
     const update = this.props.settings.quoteUpdateInterval
     if (prevProps.settings.quoteUpdateInterval !== update) {
       clearInterval(this.state.getQuotes);
-      (update === 0) ? this.setState({ getQuotes: 0 }) : this.setState({getQuotes: setInterval(() => this.loadData(), update * 60000)});
+      (update === 0) ? this.setState({ getQuotes: 0 }) : this.setState({getQuotes: setInterval(() => this.loadData(), update * 6000)});
     }
   }
 
@@ -26,12 +26,17 @@ class App extends Component {
   //will see if update is different than existing data. Will introduce "stochastic" if necessary.
   loadData = async () =>  {
     console.log('database called');
-    const { data } = await quotes.get()
-    let dataArr = Object.entries(data.quotes)
-    if (this.compare(dataArr,this.props.quotes)) { 
-      dataArr = dataArr.map(quote => [quote[0],quote[1] * (103 - (Math.random() * 6))/100]) 
+    try {
+      const { data } = await quotes.get()
+      let dataArr = Object.entries(data.quotes)
+
+      if (this.compare(dataArr,this.props.quotes)) { 
+        dataArr = dataArr.map(quote => [quote[0],quote[1] * (103 - (Math.random() * 6))/100]) 
+      }
+      this.props.fetchQuotes(dataArr)
+    } catch(e) {
+      console.log(e)
     }
-    this.props.fetchQuotes(dataArr)
   }
 
   

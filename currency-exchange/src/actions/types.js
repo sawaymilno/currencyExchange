@@ -6,4 +6,6 @@ export const EDIT_COMMISSION = 'EDIT_COMMISSION';
 export const EDIT_SURCHARGE = 'EDIT_SURCHARGE';
 export const EDIT_INTERVAL = 'EDIT_INTERVAL';
 export const EDIT_MINCOM = 'EDIT_MINCOM';
-export const EDIT_MARGIN= 'EDIT_MARGIN';
+export const EDIT_MARGIN = 'EDIT_MARGIN';
+
+export const CALL_FAIL = 'CALL_FAIL';

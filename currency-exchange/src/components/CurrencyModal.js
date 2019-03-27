@@ -10,14 +10,15 @@ class CurrencyModal extends Component {
   state = {
     sufficientForeign: true,
     sufficientDomestic: true,
-    validEntry: true
+    validEntry: true,
+    minimumAmount: true
   }
 
   //sends input to and renders from currencyReducer also check for validations
   onTextChange = (e) => {
 
     //resets validations
-    this.setState({sufficientForeign:true, sufficientDomestic: true, validEntry: true})
+    this.setState({sufficientForeign:true, sufficientDomestic: true, validEntry: true, minimumAmount: true})
 
     //variables needed for validation
     const currency = this.props.currency
@@ -47,6 +48,8 @@ class CurrencyModal extends Component {
       this.setState({sufficientForeign: false})
     } else if (order === 'Buy' && setTotal > domesticBalance) {
       this.setState({sufficientDomestic: false})
+    } else if (order === 'Buy' && setOrderValue > 0 && setTotal < 1) {
+      this.setState({minimumAmount: false})
     }
 
     const payload = {
@@ -92,7 +95,9 @@ class CurrencyModal extends Component {
     }
     this.setState({sufficientForeign: true,
       sufficientDomestic: true,
-      validEntry: true})
+      validEntry: true,
+      minimumAmount: true
+    })
     this.props.setValue(payload)
   }
   
@@ -110,7 +115,8 @@ class CurrencyModal extends Component {
     const lackOfDollars = (this.state.sufficientDomestic) ? '' : `You do not have enough USD to cover this transaction!`
     const invalidEntry = (this.state.validEntry) ? '' : `Please a enter valid amount`
 
-    let disabled = (this.state.validEntry === false || this.state.sufficientDomestic === false || this.state.sufficientForeign === false) ? true : false
+    let disabled = (this.state.validEntry === false || this.state.sufficientDomestic === false || this.state.sufficientForeign === false || this.state.minimumAmount === false) ? true : false
+    const minimumAmount = (this.state.minimumAmount) ? '' : 'Please Purchase A Minimum Amount'
 
     return (
       <Modal
@@ -148,7 +154,7 @@ class CurrencyModal extends Component {
               validate>
               <Icon>account_balance</Icon>
             </Input>
-            <Col style={{color: 'red'}}>{lackOfFunds}{lackOfDollars}{invalidEntry}</Col>
+            <Col style={{color: 'red'}}>{lackOfFunds}{lackOfDollars}{invalidEntry}{minimumAmount}</Col>
           </Row>
 
           <Row>
