@@ -16,13 +16,16 @@ class CurrencyList extends Component {
   renderClock = (time) => (time < 10) ?`0${time}` :`${time}`
     
   render() {
+    //  console.log(this.props.initialBalances.USD)
+    const color = (this.props.balances.USD < this.props.initialBalances.USD * .25) ? 'red' : 'black'
     const today = new Date();
     const date = `${today.getFullYear()}/${today.getMonth()+1}/${today.getDate()} ${this.renderClock(today.getHours())}:${this.renderClock(today.getMinutes())}:${this.renderClock(today.getSeconds())}`
-    const prompt = `Exchange rates shown as per ${date}. You have $${this.props.balances.USD.toFixed(2)} USD left.`
+    const datePrompt = `Exchange rates shown as per ${date}.  ` 
+    const moneyPrompt = `You have $${this.props.balances.USD.toFixed(2)} USD left.`
     return (
       <>
       <Row className='center'>
-        {prompt}
+        {datePrompt}<div style={{color}}>{moneyPrompt}</div>
       </Row>
       <Card>
         <div  className='list-group-item col s12 center'>

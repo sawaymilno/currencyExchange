@@ -50,6 +50,19 @@ const INITIAL_STATE = {
       USDJPY: 110000, //Japanese Yen
       USDKES: 100, //Kenyan Shilling
       USDMXN: 20000, //Mexican Peso
+  },
+  initialBalances: {
+    USD: 1500,  //USD Reserve
+    USDARS: 41000, //Agentinian Peso
+    USDAUD: 1400, //Australian Dollar
+    USDBRL: 4000, //Brazilian Real
+    USDCAD: 1500, //Canadian Dollar
+    USDCNY: 6700, //Chinese Yuan
+    USDEUR: 1000, //Euro
+    USDGBP: 900, //British Sterling Pound
+    USDJPY: 110000, //Japanese Yen
+    USDKES: 100, //Kenyan Shilling
+    USDMXN: 20000, //Mexican Peso
   }
 
 }
