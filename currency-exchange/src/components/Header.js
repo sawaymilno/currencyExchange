@@ -19,7 +19,7 @@ const Header = () => {
           Admin 
         {/* // </Link> */}
       </NavItem>
-      <NavItem>
+      <NavItem onClick={() => ''}>
         <Icon large className='white-text'>attach_money</Icon>
       </NavItem>
     </Navbar> 

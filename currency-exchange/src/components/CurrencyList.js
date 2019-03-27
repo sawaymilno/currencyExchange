@@ -8,24 +8,43 @@ import Currency from './Currency'
 
 class CurrencyList extends Component {
 
+  state = {
+    datePrompt: `Exchange rates shown as per 0000/00/00 00:00:00.  `
+  }
+
   componentDidMount = async () =>  {
     const { data } = await quotes.get()
     const dataArr = Object.entries(data.quotes)
     this.props.fetchQuotes(dataArr)
   }
+
+  componentDidUpdate(prevProps) {
+    const quotes = this.props.quotes
+    const prevQuotes = prevProps.quotes
+    if (prevQuotes !== quotes) {
+      this.refreshDate()
+    }
+  }
+
   renderClock = (time) => (time < 10) ?`0${time}` :`${time}`
-    
-  render() {
-    //  console.log(this.props.initialBalances.USD)
-    const color = (this.props.balances.USD < this.props.initialBalances.USD * .25) ? 'red' : 'black'
+
+  refreshDate = () => {
     const today = new Date();
     const date = `${today.getFullYear()}/${today.getMonth()+1}/${today.getDate()} ${this.renderClock(today.getHours())}:${this.renderClock(today.getMinutes())}:${this.renderClock(today.getSeconds())}`
     const datePrompt = `Exchange rates shown as per ${date}.  ` 
+    this.setState({datePrompt}) 
+  }
+    
+  render() {
+    const color = (this.props.balances.USD < this.props.initialBalances.USD * .25) ? 'red' : 'black'
     const moneyPrompt = `You have $${this.props.balances.USD.toFixed(2)} USD left.`
+    const warning = (this.props.settings.quoteUpdateInterval === 0) ? 'Automatic Quote Refresh Is Disabled' : ''
+    const datePrompt = this.state.datePrompt
     return (
       <>
       <Row className='center'>
-        {datePrompt}<div style={{color}}>{moneyPrompt}</div>
+      <span>{datePrompt}</span><span style={{color}}>{moneyPrompt}</span>
+        <div style={{color: 'red'}}>{warning}</div>
       </Row>
       <Card>
         <div  className='list-group-item col s12 center'>

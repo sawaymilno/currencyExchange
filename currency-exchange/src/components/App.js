@@ -24,9 +24,18 @@ class App extends Component {
   loadData = async () =>  {
     console.log('database called');
     const { data } = await quotes.get()
-    const dataArr = Object.entries(data.quotes)
+    let dataArr = Object.entries(data.quotes)
+    if (this.compare(dataArr,this.props.quotes)) { 
+      dataArr = dataArr.map(quote => [quote[0],quote[1] * (103 - (Math.random() * 6))/100]) 
+    }
     this.props.fetchQuotes(dataArr)
   }
+
+  compare = (arr1,arr2) => {   
+    let result;
+    arr1.forEach((e1) => arr2.forEach( e2 => (e1[1] !== e2[1] ) ? (result = false) : (result = true)))
+    return result 
+ }
 
   render() {
     return (

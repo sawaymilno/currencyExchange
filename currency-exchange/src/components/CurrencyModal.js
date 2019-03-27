@@ -5,16 +5,43 @@ import { connect } from 'react-redux';
 import * as actions from '../actions';
 
 class CurrencyModal extends Component {
+  state = {
+    sufficientForeign: true,
+    sufficientDomestic: true,
+    validEntry: true
+  }
 
   onTextChange = (e) => {
+    
+    this.setState({sufficientForeign:true, sufficientDomestic: true, validEntry: true})
 
-    //throw alert here for validation
-    const setOrderValue = parseInt(e.target.value)
-    const setRate = Object.values(this.props.order)
-    const setSubtotal = setOrderValue * setRate
+    const currency = this.props.currency
+    const foreignBalance = this.props.balances[currency]
+    const domesticBalance = this.props.balances['USD']
+    const order = Object.keys(this.props.order)[0]
+    
+    let setOrderValue = parseInt(e.target.value)
+    const setRate = Object.values(this.props.order)[0]
+    let setSubtotal = setOrderValue * setRate
     const setCommissionPCT = (setSubtotal * this.props.settings.commission) + this.props.settings.surcharge
-    const setCommission = Math.max(setCommissionPCT, this.props.settings.minCommission)
-    const setTotal = (Object.keys(this.props.order)[0]) === 'Sell' ? (setSubtotal + setCommission) : (setSubtotal - setCommission)
+    let setCommission = Math.max(setCommissionPCT, this.props.settings.minCommission)
+    let setTotal = order === 'Sell' ? (setSubtotal + setCommission) : (setSubtotal - setCommission)
+    
+
+    if (isNaN(setOrderValue) || typeof setOrderValue !== 'number') {
+      setOrderValue = 0
+      setSubtotal = 0
+      setCommission = 0
+      setTotal = 0
+      this.setState({validEntry: false})
+    }
+
+    if (order === 'Sell' && setOrderValue > foreignBalance) {
+      this.setState({sufficientForeign: false})
+    } else if (order === 'Buy' && setTotal > domesticBalance) {
+      this.setState({sufficientDomestic: false})
+    }
+
     const payload = {
       orderValue: setOrderValue,
       orderSubtotal: setSubtotal,
@@ -27,37 +54,35 @@ class CurrencyModal extends Component {
   
   onOrderClick = () => {
     const submitOrderTrade = Object.keys(this.props.order)[0]
-    const SubmitOrderCurrency = this.props.currency
-    const submitOrderValue = this.props.orderProcess.orderValue
-    const submitOrderTotal = this.props.orderProcess.orderTotal
+    const submitOrderCurrency = this.props.currency
+    const value = this.props.orderProcess.orderValue
+    const submitOrderValue = parseFloat(value.toFixed(2))
+    const total = this.props.orderProcess.orderTotal
+    const submitOrderTotal = parseFloat(total.toFixed(2))
     let submitBalances = Object.assign({},this.props.balances)
     
-    const initVal = {
-      orderValue: 0,
-      orderSubtotal: 0,
-      orderCommission: 0,
-      orderTotal: 0
-    }
-    this.props.setValue(initVal)
-
+    this.onClear();
     if (submitOrderTrade === 'Sell')  {
-      submitBalances[`${SubmitOrderCurrency}`] -= submitOrderValue;
-      submitBalances.USD += submitOrderTotal
+        submitBalances[`${submitOrderCurrency}`] -= submitOrderValue;
+        submitBalances.USD += submitOrderTotal;
     } else {
-      submitBalances[`${SubmitOrderCurrency}`] += submitOrderValue;
-      submitBalances.USD -= submitOrderTotal
-    }
+        submitBalances[`${submitOrderCurrency}`] += submitOrderValue;
+        submitBalances.USD -= submitOrderTotal;
+      }
+
     this.props.makeOrder(submitBalances)
   }
 
-  onCancel = () => {
+  onClear = () => {
     const payload = {
       orderValue: 0,
       orderSubtotal: 0,
       orderCommission: 0,
       orderTotal: 0
     }
-
+    this.setState({sufficientForeign: true,
+      sufficientDomestic: true,
+      validEntry: true})
     this.props.setValue(payload)
   }
   
@@ -71,15 +96,26 @@ class CurrencyModal extends Component {
     const commission = this.props.orderProcess.orderCommission.toFixed(2)
     const trade = (Object.keys(this.props.order)[0]) === 'Sell' ? 'Receive' : 'Deliver'
     const total = (this.props.orderProcess.orderTotal.toFixed(2) < 0) ? 0 : this.props.orderProcess.orderTotal.toFixed(2)
-    
+    const lackOfFunds = (this.state.sufficientForeign) ? '' : `You do not have enough ${currency} to cover this transaction!`
+    const lackOfDollars = (this.state.sufficientDomestic) ? '' : `You do not have enough USD to cover this transaction!`
+    const invalidEntry = (this.state.validEntry) ? '' : `Please a enter valid amount`
+
+    let disabled = (this.state.validEntry === false || this.state.sufficientDomestic === false || this.state.sufficientForeign === false) ? true : false
+
+    console.log(disabled, this.state.validEntry )
+
     return (
       <Modal
       header={`${orderType} ${currency}`}
       trigger={<Col  s={2} className={`list-group-item`}>{rate}</Col>}
       actions={
         <>
-          <Button style={{backgroundColor: 'blue'}} modal='close' onClick={this.onOrderClick}>{orderType}</Button>
-          <Button style={{backgroundColor: 'blue'}} modal='close' onClick={this.onCancel}>cancel</Button>
+          <Button style={{backgroundColor: 'blue'}} 
+          modal='close'
+          onClick={this.onOrderClick}
+          disabled={disabled}
+          >{orderType} </Button>
+          <Button style={{backgroundColor: 'blue'}} modal='close' onClick={this.onClear}>cancel</Button>
         </>}
       >
         <form>
@@ -96,6 +132,7 @@ class CurrencyModal extends Component {
               validate>
               <Icon>account_balance</Icon>
             </Input>
+            <Col style={{color: 'red'}}>{lackOfFunds}{lackOfDollars}{invalidEntry}</Col>
           </Row>
 
           <Row>
