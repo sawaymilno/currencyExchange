@@ -10,9 +10,10 @@ import * as actions from '../actions';
 import quotes from '../apis/currencyLayer'
 
 class App extends Component {
-  
+  //initializes get request to API based on a set interval that is adjustable via admin page.
   state = { getQuotes: setInterval(() => this.loadData(), this.props.settings.quoteUpdateInterval * 60000)}
 
+  //when admin updates timing of refresh
   componentDidUpdate(prevProps) {
     const update = this.props.settings.quoteUpdateInterval
     if (prevProps.settings.quoteUpdateInterval !== update) {
@@ -21,6 +22,8 @@ class App extends Component {
     }
   }
 
+  //get request to  api
+  //will see if update is different than existing data. Will introduce "stochastic" if necessary.
   loadData = async () =>  {
     console.log('database called');
     const { data } = await quotes.get()
@@ -31,6 +34,7 @@ class App extends Component {
     this.props.fetchQuotes(dataArr)
   }
 
+  
   compare = (arr1,arr2) => {   
     let result;
     arr1.forEach((e1) => arr2.forEach( e2 => (e1[1] !== e2[1] ) ? (result = false) : (result = true)))
@@ -56,6 +60,6 @@ class App extends Component {
 
 const mapStateToProps = ({ bankData }) => {
   return bankData
- }
+}
 export default connect(mapStateToProps, actions)(App);
 

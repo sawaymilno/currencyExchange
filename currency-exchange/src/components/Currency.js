@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import * as actions from '../actions';
 import CurrencyModal from './CurrencyModal'
 
+//each row of currencies in the currencyList
 const Currency = (props) => {
   
   const {quote} = props
@@ -26,7 +27,6 @@ const Currency = (props) => {
       <Col s={4} style={{color}} >{balance.toFixed(2)}</Col>
     </Row>
   )
-
 }
 
 const mapStateToProps = ({bankData}) => {

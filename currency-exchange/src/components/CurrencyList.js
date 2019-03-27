@@ -7,17 +7,19 @@ import quotes from '../apis/currencyLayer'
 import Currency from './Currency'
 
 class CurrencyList extends Component {
-
+  //default timing placeholder until api call returns with current data.
   state = {
     datePrompt: `Exchange rates shown as per 0000/00/00 00:00:00.  `
   }
 
+  //initial loading of data from api
   componentDidMount = async () =>  {
     const { data } = await quotes.get()
     const dataArr = Object.entries(data.quotes)
     this.props.fetchQuotes(dataArr)
   }
 
+  //refreshes date/time whenver api call is made
   componentDidUpdate(prevProps) {
     const quotes = this.props.quotes
     const prevQuotes = prevProps.quotes
@@ -32,14 +34,16 @@ class CurrencyList extends Component {
     const today = new Date();
     const date = `${today.getFullYear()}/${today.getMonth()+1}/${today.getDate()} ${this.renderClock(today.getHours())}:${this.renderClock(today.getMinutes())}:${this.renderClock(today.getSeconds())}`
     const datePrompt = `Exchange rates shown as per ${date}.  ` 
-    this.setState({datePrompt}) 
+    this.setState({ datePrompt }) 
   }
     
   render() {
+
     const color = (this.props.balances.USD < this.props.initialBalances.USD * .25) ? 'red' : 'black'
     const moneyPrompt = `You have $${this.props.balances.USD.toFixed(2)} USD left.`
     const warning = (this.props.settings.quoteUpdateInterval === 0) ? 'Automatic Quote Refresh Is Disabled' : ''
     const datePrompt = this.state.datePrompt
+    
     return (
       <>
       <Row className='center'>
