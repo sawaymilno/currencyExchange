@@ -5,21 +5,27 @@ import { connect } from 'react-redux';
 import * as actions from '../actions';
 
 class CurrencyModal extends Component {
+
+  //local state to help with validations
   state = {
     sufficientForeign: true,
     sufficientDomestic: true,
     validEntry: true
   }
 
+  //sends input to and renders from currencyReducer also check for validations
   onTextChange = (e) => {
-    
+
+    //resets validations
     this.setState({sufficientForeign:true, sufficientDomestic: true, validEntry: true})
 
+    //variables needed for validation
     const currency = this.props.currency
     const foreignBalance = this.props.balances[currency]
     const domesticBalance = this.props.balances['USD']
     const order = Object.keys(this.props.order)[0]
-    
+
+    //variables needed calculations and sending payload to reducer
     let setOrderValue = parseInt(e.target.value)
     const setRate = Object.values(this.props.order)[0]
     let setSubtotal = setOrderValue * setRate
@@ -27,7 +33,7 @@ class CurrencyModal extends Component {
     let setCommission = Math.max(setCommissionPCT, this.props.settings.minCommission)
     let setTotal = order === 'Sell' ? (setSubtotal + setCommission) : (setSubtotal - setCommission)
     
-
+    //checks to be a valid number
     if (isNaN(setOrderValue) || typeof setOrderValue !== 'number') {
       setOrderValue = 0
       setSubtotal = 0
@@ -36,6 +42,7 @@ class CurrencyModal extends Component {
       this.setState({validEntry: false})
     }
 
+    //checks for valid quantities
     if (order === 'Sell' && setOrderValue > foreignBalance) {
       this.setState({sufficientForeign: false})
     } else if (order === 'Buy' && setTotal > domesticBalance) {
@@ -52,7 +59,9 @@ class CurrencyModal extends Component {
     this.props.setValue(payload);
   }
   
+  //changes balances in currencyReducer
   onOrderClick = () => {
+
     const submitOrderTrade = Object.keys(this.props.order)[0]
     const submitOrderCurrency = this.props.currency
     const value = this.props.orderProcess.orderValue
@@ -73,6 +82,7 @@ class CurrencyModal extends Component {
     this.props.makeOrder(submitBalances)
   }
 
+  //resets local state as well as payloads to currencyReducer
   onClear = () => {
     const payload = {
       orderValue: 0,
@@ -102,20 +112,26 @@ class CurrencyModal extends Component {
 
     let disabled = (this.state.validEntry === false || this.state.sufficientDomestic === false || this.state.sufficientForeign === false) ? true : false
 
-    console.log(disabled, this.state.validEntry )
-
     return (
       <Modal
       header={`${orderType} ${currency}`}
       trigger={<Col  s={2} className={`list-group-item`}>{rate}</Col>}
       actions={
         <>
-          <Button style={{backgroundColor: 'blue'}} 
-          modal='close'
-          onClick={this.onOrderClick}
-          disabled={disabled}
-          >{orderType} </Button>
-          <Button style={{backgroundColor: 'blue'}} modal='close' onClick={this.onClear}>cancel</Button>
+          <Button 
+            style={{backgroundColor: 'blue'}} 
+            modal='close'
+            onClick={this.onOrderClick}
+            disabled={disabled}
+            >
+            {orderType} 
+          </Button>
+          <Button 
+            style={{backgroundColor: 'blue'}} 
+            modal='close' 
+            onClick={this.onClear}>
+            cancel
+          </Button>
         </>}
       >
         <form>
@@ -160,7 +176,6 @@ class CurrencyModal extends Component {
 
 const mapStateToProps = ({ bankData }) => {
   const { settings, balances, orderProcess } = bankData
-  
   return { settings, balances, orderProcess }
 }
 
