@@ -11,14 +11,14 @@ import quotes from '../apis/currencyLayer'
 
 class App extends Component {
   //initializes get request to API based on a set interval that is adjustable via admin page.
-  state = { getQuotes: setInterval(() => this.loadData(), this.props.settings.quoteUpdateInterval * 6000)}
+  state = { getQuotes: setInterval(() => this.loadData(), this.props.settings.quoteUpdateInterval * 60000)}
 
   //when admin updates timing of refresh
   componentDidUpdate(prevProps) {
     const update = this.props.settings.quoteUpdateInterval
     if (prevProps.settings.quoteUpdateInterval !== update) {
       clearInterval(this.state.getQuotes);
-      (update === 0) ? this.setState({ getQuotes: 0 }) : this.setState({getQuotes: setInterval(() => this.loadData(), update * 6000)});
+      (update === 0) ? this.setState({ getQuotes: 0 }) : this.setState({getQuotes: setInterval(() => this.loadData(), update * 60000)});
     }
   }
 
