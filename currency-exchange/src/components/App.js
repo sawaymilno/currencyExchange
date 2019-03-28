@@ -13,8 +13,7 @@ class App extends Component {
   //initializes get request to API based on a set interval that is adjustable via admin page.
   state = { 
     getQuotes: setInterval(() => this.loadData(), this.props.settings.quoteUpdateInterval * 60000),
-    access: false,
-    password: 'password'
+    access: false
   }
 
   //when admin updates timing of refresh
