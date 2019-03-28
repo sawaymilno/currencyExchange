@@ -9,3 +9,4 @@ export const EDIT_MINCOM = 'EDIT_MINCOM';
 export const EDIT_MARGIN = 'EDIT_MARGIN';
 
 export const CALL_FAIL = 'CALL_FAIL';
+export const PASSWORD = 'PASSWORD';

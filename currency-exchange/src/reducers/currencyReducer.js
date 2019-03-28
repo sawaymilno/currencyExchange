@@ -7,7 +7,8 @@ import {
   EDIT_INTERVAL,
   EDIT_MINCOM,
   EDIT_MARGIN,
-  CALL_FAIL
+  CALL_FAIL,
+  PASSWORD
  } from '../actions/types'
 
 const INITIAL_STATE = { 
@@ -65,7 +66,8 @@ const INITIAL_STATE = {
     USDKES: 100, //Kenyan Shilling
     USDMXN: 20000, //Mexican Peso
   },
-  failMessage:''
+  failMessage:'',
+  password:''
 
 }
 
@@ -89,6 +91,8 @@ export default (state = INITIAL_STATE, action) => {
       return { ...state, settings: {...state.settings, buySellMargin: action.payload}}
     case CALL_FAIL:
       return {...state, failMessage: 'API Call Failed. No Current Quotes.'}
+    case PASSWORD:
+      return {...state, password: action.payload}
     default:
       return state;
   } 

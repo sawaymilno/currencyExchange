@@ -7,7 +7,8 @@ import {
   EDIT_INTERVAL,
   EDIT_MINCOM,
   EDIT_MARGIN,
-  CALL_FAIL
+  CALL_FAIL,
+  PASSWORD
  } from './types'
 
 export const fetchQuotes = obj => ({ type: FETCH_QUOTES, payload: obj });
@@ -20,3 +21,4 @@ export const editInterval = num => ({type: EDIT_INTERVAL, payload: num});
 export const editMinCom = num => ({type: EDIT_MINCOM, payload: num});
 export const editMargin = num => ({type: EDIT_MARGIN, payload: num});
 export const callFail = () => ({type: CALL_FAIL})
+export const editPassword = str => ({type: PASSWORD, payload: str})

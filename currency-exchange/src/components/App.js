@@ -11,7 +11,11 @@ import quotes from '../apis/currencyLayer'
 
 class App extends Component {
   //initializes get request to API based on a set interval that is adjustable via admin page.
-  state = { getQuotes: setInterval(() => this.loadData(), this.props.settings.quoteUpdateInterval * 60000)}
+  state = { 
+    getQuotes: setInterval(() => this.loadData(), this.props.settings.quoteUpdateInterval * 60000),
+    access: false,
+    password: 'password'
+  }
 
   //when admin updates timing of refresh
   componentDidUpdate(prevProps) {
@@ -44,10 +48,19 @@ class App extends Component {
     let result;
     arr1.forEach((e1) => arr2.forEach( e2 => (e1[1] !== e2[1] ) ? (result = false) : (result = true)))
     return result 
- }
+  }
+
+ //simple password access
+  onPasswordChange = (e) => {
+    if (e.target.value === 'helloWorld') {
+      this.setState({access: true})
+    }
+    this.props.editPassword((e.target.value))
+  }
+
 
   render() {
-    return (
+    return !this.state.access ? (<div><input onChange={this.onPasswordChange} placeholder='enter password'  value={`${this.props.password}`}></input></div>) : (
       <div className='App'>
       <Router history={history}>
         <div>
