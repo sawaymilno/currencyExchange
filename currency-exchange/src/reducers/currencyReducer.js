@@ -24,7 +24,7 @@ const INITIAL_STATE = {
     surcharge: 1.00,
     minCommission: 2.00,
     buySellMargin: .02,
-    quoteUpdateInterval: 10
+    quoteUpdateInterval: 1
   },
 
   quotes: [

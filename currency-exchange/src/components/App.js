@@ -12,7 +12,7 @@ import quotes from '../apis/currencyLayer'
 class App extends Component {
   //initializes get request to API based on a set interval that is adjustable via admin page.
   state = { 
-    getQuotes: setInterval(() => this.loadData(), this.props.settings.quoteUpdateInterval * 60000),
+    getQuotes: setInterval(() => this.loadData(), this.props.settings.quoteUpdateInterval * 6000),
     access: false
   }
 
@@ -21,7 +21,7 @@ class App extends Component {
     const update = this.props.settings.quoteUpdateInterval
     if (prevProps.settings.quoteUpdateInterval !== update) {
       clearInterval(this.state.getQuotes);
-      (update === 0) ? this.setState({ getQuotes: 0 }) : this.setState({getQuotes: setInterval(() => this.loadData(), update * 60000)});
+      (update === 0) ? this.setState({ getQuotes: 0 }) : this.setState({getQuotes: setInterval(() => this.loadData(), update * 6000)});
     }
   }
 
@@ -32,7 +32,8 @@ class App extends Component {
     try {
       const { data } = await quotes.get()
       let dataArr = Object.entries(data.quotes)
-
+      console.log(dataArr, this.props.quotes);
+      
       if (this.compare(dataArr,this.props.quotes)) { 
         dataArr = dataArr.map(quote => [quote[0],quote[1] * (103 - (Math.random() * 6))/100]) 
       }
@@ -44,9 +45,17 @@ class App extends Component {
 
   
   compare = (arr1,arr2) => {   
-    let result;
-    arr1.forEach((e1) => arr2.forEach( e2 => (e1[1] !== e2[1] ) ? (result = false) : (result = true)))
-    return result 
+    let result
+    for (let i = 0; i < arr1.length; i++) {
+      if (arr1[i][1] !== arr2[i][1]) {
+        result = false
+        break
+      } else {
+        result = true
+      }
+    }
+    console.log(result)
+    return result
   }
 
  //simple password access
@@ -59,8 +68,8 @@ class App extends Component {
 
 
   render() {
-    return !this.state.access ? (<div><input onChange={this.onPasswordChange} placeholder='enter password'  value={`${this.props.password}`}></input></div>) : (
-      <div className='App'>
+    // return !this.state.access ? (<div><input onChange={this.onPasswordChange} placeholder='enter password'  value={`${this.props.password}`}></input></div>) : (
+      return (<div className='App'>
       <Router history={history}>
         <div>
           <Header />
